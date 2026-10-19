@@ -1,1 +1,6 @@
 ** BNF Grammar used for this project **
+
+expression ::= term (("+" | "-") term)*
+term       ::= unary (("*" | "/") unary)*
+unary      ::= ("+" | "-") unary | primary
+primary    ::= NUM | VAR | "(" expression ")"
