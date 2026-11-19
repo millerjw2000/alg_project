@@ -1,6 +1,18 @@
 ** BNF Grammar used for this project **
+program             ::= statement* EOF
 
-expression ::= term (("+" | "-") term)*
-term       ::= unary (("*" | "/") unary)*
-unary      ::= ("+" | "-") unary | primary
-primary    ::= NUM | VAR | "(" expression ")"
+statement           ::= assignment
+                   |    if_statement
+
+assignment          ::= VAR ASSIGN expression SEMICOL
+
+if_statement        ::= IF expression THEN statement*
+                        (ELSE statement*)?
+                        END SEMICOL
+expression          ::= term (("+" | "-") term)*
+
+term                ::= unary (("*" | "/") unary)*
+
+unary               ::= ("+" | "-") unary | primary
+
+primary             ::= NUM | VAR | "(" expression ")"

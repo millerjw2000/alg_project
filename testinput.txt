@@ -1,3 +1,4 @@
-Test_1 = test2 * 3
-test1 / test2
-(hello world)
+IF PTS >= 25 AND REB != 0 THEN
+    SCORE = PTS * 15.5
+ELSE
+    SCORE = PTS + REB; !
