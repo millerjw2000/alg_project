@@ -9,10 +9,29 @@ assignment          ::= VAR ASSIGN expression SEMICOL
 if_statement        ::= IF expression THEN statement*
                         (ELSE statement*)?
                         END SEMICOL
-expression          ::= term (("+" | "-") term)*
 
-term                ::= unary (("*" | "/") unary)*
+expression          ::= logical_or
 
-unary               ::= ("+" | "-") unary | primary
+logical_or          ::= logical_and (OR logical_and)*
 
-primary             ::= NUM | VAR | "(" expression ")"
+logical_and         ::= comparison (AND comparison)*
+
+comparison          ::= additive (comparison_op additive)?
+
+comparison_op       ::= GT | LT | GTE | LTE | EQ | NEQ
+
+additive            ::= multiplicative ((PLUS | MINUS) multiplicative)*
+
+multiplicative      ::= unary ((MULT | DIV) unary)*
+
+unary               ::= (PLUS | MINUS | NOT) unary
+                        | primary
+
+primary             ::= NUM
+                        | VAR
+                        | function_call
+                        | LPAR expression RPAR
+
+function_call       ::= VAR LPAR arguments? RPAR
+
+arguments           ::= expression (COM expression)*
