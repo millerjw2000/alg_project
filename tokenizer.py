@@ -1,7 +1,5 @@
 import sys
 
-# TODO : Add decimal support
-
 operators = {
     '+':'PLUS',
     '-':'MINUS',

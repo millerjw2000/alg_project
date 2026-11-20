@@ -1,9 +1,9 @@
-IF PTS >= 30 THEN
-    SCORE = PTS * 2;
+IF 5 > 3 THEN
+    d = 3;
+    x=4;
 ELSE
-    IF PTS >= 20 THEN
-        SCORE = PTS * 1.5;
-    ELSE
-        SCORE = PTS;
-    END;
+    d = 10;
 END;
+
+x = x + 4;
+test = homePoints * 3;

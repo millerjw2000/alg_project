@@ -1,21 +1,21 @@
-import tokenizer as Tokenizer
-import parser as p
+from tokenizer import *
+from parser import *
+from evaluator import *
 import sys
 
 def main():
 
     filename = 'testinput.txt'
 
-    tokens = Tokenizer.tokenize(filename)
+    tokens = tokenize(filename)
 
-    print(tokens)
+    #print(tokens)
 
-    parser = p.Parser(tokens)
+    parser = Parser(tokens)
 
     ast = parser.parse_program()
 
-    print(ast)
-
+    evaluate_program(ast)
 
 if __name__ == '__main__':
     main()
