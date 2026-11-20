@@ -34,7 +34,7 @@ def evaluate_assignment(assignment_statement):
 
     name = assignment_statement.name
     if name in functions:
-        raise f'{name} is a function name!'
+        raise SyntaxError(f'{name} is a function name!')
     
     expression = assignment_statement.expression
 
@@ -64,16 +64,7 @@ def evaluate_if(if_statement):
     then_branch = if_statement.then_branch
     else_branch = if_statement.else_branch
     
-    if isinstance(condition, BinaryExpression):
-        condition_val = evaluate_binary_expression(condition)
-    elif isinstance(condition, UnaryExpression):
-        condition_val = evaluate_unary_expression(condition)
-    elif isinstance(condition,Variable):
-        condition_val = evaluate_variable(condition)
-    elif isinstance(condition,Number):
-        condition_val = evaluate_number(condition)
-    elif isinstance(condition,FunctionCall):
-        condition_val = evaluate_function_call(condition)
+    condition_val = evaluate_expression(condition)
 
     if condition_val != 0: # non-zero = True
 
@@ -85,6 +76,21 @@ def evaluate_if(if_statement):
         for statement in else_branch:
             evaluate_statement(statement)
 
+def evaluate_expression(expression):
+
+    if isinstance(expression, BinaryExpression):
+        result = evaluate_binary_expression(expression)
+    elif isinstance(expression, UnaryExpression):
+        result = evaluate_unary_expression(expression)
+    elif isinstance(expression, Variable):
+        result = evaluate_variable(expression)
+    elif isinstance(expression, Number):
+        result = evaluate_number(expression)
+    elif isinstance(expression,FunctionCall):
+        result = evaluate_function_call(expression)
+
+    return result
+
 def evaluate_binary_expression(binary_expression):
 
     print(binary_expression)
@@ -93,23 +99,8 @@ def evaluate_binary_expression(binary_expression):
     right = binary_expression.right
     operator = binary_expression.operator
 
-    if isinstance(left, BinaryExpression):
-        left_val = evaluate_binary_expression(left)
-    elif isinstance(left, UnaryExpression):
-        left_val = evaluate_unary_expression(left)
-    elif isinstance(left, Variable):
-        left_val = evaluate_variable(left)
-    elif isinstance(left, Number):
-        left_val = evaluate_number(left)
-
-    if isinstance(right, BinaryExpression):   
-        right_val = evaluate_binary_expression(right)  
-    elif isinstance(right, UnaryExpression):   
-        right_val = evaluate_unary_expression(right)  
-    elif isinstance(right, Variable):   
-        right_val = evaluate_variable(right)
-    elif isinstance(right, Number):
-        right_val = evaluate_number(right)
+    left_val = evaluate_expression(left)
+    right_val = evaluate_expression(right)
 
     print('leftval',left_val)
     print('rightval',right_val)
@@ -161,17 +152,7 @@ def evaluate_unary_expression(unary_expression):
     operator = unary_expression.operator
     operand = unary_expression.operand
 
-    if isinstance(operand, BinaryExpression):
-
-        operand_val = evaluate_binary_expression(operand)
-
-    elif isinstance(operand, Variable):
-
-        operand_val = evaluate_variable(operand)
-
-    elif isinstance(operand, Number):
-
-        operand_val = evaluate_number(operand)
+    operand_val = evaluate_expression(operand)
 
     if operator == 'PLUS':
 
@@ -208,6 +189,10 @@ def evaluate_function_call(function_call):
 
         case 'avg':
             return calc_avg(arguments)
+        case 'max':
+            return calc_max(arguments)
+        case 'min':
+            return calc_min(arguments)
             
 
 def calc_avg(arguments):
@@ -219,24 +204,36 @@ def calc_avg(arguments):
     sum = 0
     for argument in arguments:
     
-        if isinstance(argument,BinaryExpression):
-    
-            sum += evaluate_binary_expression(argument)
-    
-        elif isinstance(argument,UnaryExpression):
-    
-            sum += evaluate_unary_expression(argument)
-
-        elif isinstance(argument,Variable):
-
-            sum += evaluate_variable(argument)
-
-        elif isinstance(argument,FunctionCall):
-
-            sum += evaluate_function_call(argument)
-
-        elif isinstance(argument,Number):
-
-            sum += evaluate_number(argument)
+        sum += evaluate_expression(argument)
 
     return sum / len(arguments)
+
+def calc_max(arguments):
+
+    if len(arguments) < 1:
+    
+        raise SyntaxError(f'Invalid number of arguments. Expected > 1, got {len(arguments)}')
+    
+    max = evaluate_expression(arguments[0])
+    for argument in arguments:
+    
+        val = evaluate_expression(argument)
+        if val > max:
+            max = val
+
+    return max
+
+def calc_min(arguments):
+
+    if len(arguments) < 1:
+    
+        raise SyntaxError(f'Invalid number of arguments. Expected > 1, got {len(arguments)}')
+    
+    min = evaluate_expression(arguments[0])
+    for argument in arguments:
+        
+        val = evaluate_expression(argument)
+        if val < min:
+            min = val
+    
+    return min
