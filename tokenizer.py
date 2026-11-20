@@ -22,10 +22,10 @@ operators = {
 
 keywords = ['IF','THEN','ELSE','AND','OR','NOT','END']
 
-def main():
+def tokenize(filename):
     
     #filename = sys.argv[1]
-    filename = 'testinput.txt'
+    #filename = 'testinput.txt'
 
     output = []
 
@@ -118,7 +118,9 @@ def main():
                     raise ValueError(f"Invalid char '{char}' at line {ln_counter}, column {cl_counter}")
 
             output.append(('EOF',None))
-            print(output)
+            #print(output)
+
+            return output
 
     except FileNotFoundError as error:
 
@@ -126,4 +128,4 @@ def main():
 
 if __name__ == '__main__':
 
-    main()
+    pass

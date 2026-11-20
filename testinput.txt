@@ -1,4 +1,9 @@
-IF PTS >= 25 AND REB != 0 THEN
-    SCORE = PTS * 15.5
+IF PTS >= 30 THEN
+    SCORE = PTS * 2;
 ELSE
-    SCORE = PTS + REB; !
+    IF PTS >= 20 THEN
+        SCORE = PTS * 1.5;
+    ELSE
+        SCORE = PTS;
+    END;
+END;
