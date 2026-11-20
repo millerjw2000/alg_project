@@ -1,5 +1,6 @@
 from ast_nodes import *
 import re
+import math
 
 # make sure reserved variables are not modifiable
 # make sure variable names are valid
@@ -193,7 +194,12 @@ def evaluate_function_call(function_call):
             return calc_max(arguments)
         case 'min':
             return calc_min(arguments)
-            
+        case 'abs':
+            return calc_abs(arguments)
+        case 'pow':
+            return calc_pow(arguments) 
+        case 'sqrt':
+            return calc_sqrt(arguments)          
 
 def calc_avg(arguments):
 
@@ -212,7 +218,7 @@ def calc_max(arguments):
 
     if len(arguments) < 1:
     
-        raise SyntaxError(f'Invalid number of arguments. Expected > 1, got {len(arguments)}')
+        raise SyntaxError(f'Invalid number of arguments. Expected at least 1, got {len(arguments)}')
     
     max = evaluate_expression(arguments[0])
     for argument in arguments:
@@ -227,7 +233,7 @@ def calc_min(arguments):
 
     if len(arguments) < 1:
     
-        raise SyntaxError(f'Invalid number of arguments. Expected > 1, got {len(arguments)}')
+        raise SyntaxError(f'Invalid number of arguments. Expected at least 1, got {len(arguments)}')
     
     min = evaluate_expression(arguments[0])
     for argument in arguments:
@@ -237,3 +243,34 @@ def calc_min(arguments):
             min = val
     
     return min
+
+def calc_abs(arguments):
+
+    if len(arguments) != 1:
+
+        raise SyntaxError(f'Invalid number of arguments. Expected 1, got {len(arguments)}')
+
+    val = evaluate_expression(arguments[0])
+
+    return math.fabs(val)
+
+def calc_pow(arguments):
+
+    if len(arguments) != 2:
+    
+            raise SyntaxError(f'Invalid number of arguments. Expected 2, got {len(arguments)}')
+    
+    x = evaluate_expression(arguments[0])
+    y = evaluate_expression(arguments[1])
+    
+    return math.pow(x,y)
+
+def calc_sqrt(arguments):
+
+    if len(arguments) != 1:
+
+        raise SyntaxError(f'Invalid number of arguments. Expected 1, got {len(arguments)}')
+
+    val = evaluate_expression(arguments[0])
+
+    return math.sqrt(val)

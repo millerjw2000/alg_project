@@ -1,3 +1,6 @@
-avdg = 3;
-d = avg(1,2,3,4,5,6);
-dd = min(1,2,3,4,5,6);
+x = abs(-2);
+y = min(x,2,3,4);
+d = max(1,23,4,5,6,6);
+dsa = pow(5,2);
+dsadsa = sqrt(25);
+dsadsa = avg(x,y,d+3,max(2,3,4,5,6));
