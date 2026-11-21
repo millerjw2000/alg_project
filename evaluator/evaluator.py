@@ -14,7 +14,7 @@ def evaluate_program(ast):
 
     for statement in ast.statements:
         
-        print(statement)
+        #print(statement)
         evaluate_statement(statement)
         
     print(var_values)
@@ -94,7 +94,7 @@ def evaluate_expression(expression):
 
 def evaluate_binary_expression(binary_expression):
 
-    print(binary_expression)
+    #print(binary_expression)
     
     left = binary_expression.left
     right = binary_expression.right
@@ -103,8 +103,8 @@ def evaluate_binary_expression(binary_expression):
     left_val = evaluate_expression(left)
     right_val = evaluate_expression(right)
 
-    print('leftval',left_val)
-    print('rightval',right_val)
+    #print('leftval',left_val)
+    #print('rightval',right_val)
 
     if operator == 'PLUS':
 
@@ -149,7 +149,7 @@ def evaluate_binary_expression(binary_expression):
 
 def evaluate_unary_expression(unary_expression):
 
-    print(unary_expression)
+    #print(unary_expression)
     operator = unary_expression.operator
     operand = unary_expression.operand
 
@@ -169,12 +169,12 @@ def evaluate_unary_expression(unary_expression):
 
 def evaluate_number(number):
 
-    print(number)
+    #print(number)
     return float(number.value)
 
 def evaluate_variable(variable):
 
-    print(variable)
+    #print(variable)
     return var_values[variable.name]
 
 def evaluate_function_call(function_call):
