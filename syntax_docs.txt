@@ -36,7 +36,10 @@ built-in functions
 avg([args]); ~ Returns the average of a series of arguments.
 min([args]); ~ Returns the minimum of a series of arguments.
 max([args]); ~ Returns the maximum of a series of arguments.
+med([args]); ~ Returns the median of a series of arguments.
 abs(arg);    ~ Returns the absolute value of an argument.
 round(x,y);  ~ Rounds x to y digits.
 pow(x,y);    ~ Raises x to the power of y.
 sqrt(arg);   ~ Returns the square root of an argument.
+ceil(arg);   ~ Returns arg rounded up to the nearest integer.
+floor(arg);  ~ Returns arg rounded down to the nearest integer.

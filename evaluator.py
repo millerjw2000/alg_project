@@ -6,7 +6,7 @@ import math
 # make sure variable names are valid
 # improve documentation
 
-functions = ['avg','max','min','abs','pow','round','floor','ceil','sqrt']
+functions = ['avg','max','min','abs','pow','round','floor','ceil','sqrt','med']
 
 var_values = {}
 
@@ -199,7 +199,13 @@ def evaluate_function_call(function_call):
         case 'pow':
             return calc_pow(arguments) 
         case 'sqrt':
-            return calc_sqrt(arguments)          
+            return calc_sqrt(arguments)
+        case 'med':
+            return calc_med(arguments)
+        case 'floor':
+            return calc_floor(arguments)
+        case 'ceil':
+            return calc_ceil(arguments)       
 
 def calc_avg(arguments):
 
@@ -274,3 +280,42 @@ def calc_sqrt(arguments):
     val = evaluate_expression(arguments[0])
 
     return math.sqrt(val)
+
+def calc_ceil(arguments):
+
+    if len(arguments) != 1:
+
+        raise SyntaxError(f'Invalid number of arguments. Expected 1, got {len(arguments)}')
+
+    val = evaluate_expression(arguments[0])
+
+    return math.ceil(val)
+
+def calc_floor(arguments):
+
+    if len(arguments) != 1:
+
+        raise SyntaxError(f'Invalid number of arguments. Expected 1, got {len(arguments)}')
+
+    val = evaluate_expression(arguments[0])
+
+    return math.floor(val)
+
+def calc_med(arguments):
+
+    if len(arguments) < 1:
+        
+        raise SyntaxError(f'Invalid number of arguments. Expected at least 1, got {len(arguments)}')
+
+    val_list = [evaluate_expression(argument) for argument in arguments]
+    val_list = sorted(val_list)
+
+    if len(val_list) % 2 == 0:
+
+        
+        return (val_list[int(len(val_list)/2)] + val_list[int(len(val_list)/2)-1]) / 2 # ugly ass line
+
+    elif len(val_list) % 2 == 1:
+
+        mid_index = int((len(val_list) + 1) / 2) - 1
+        return val_list[mid_index]
