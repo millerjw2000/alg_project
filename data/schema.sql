@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS teams (
 
-    team_id INTEGER PRIMARY KEY,
+    id INTEGER PRIMARY KEY,
     team_name VARCHAR(40),
     
     blocks INTEGER,
@@ -30,10 +30,10 @@ CREATE TABLE IF NOT EXISTS teams (
     team_turnovers INTEGER,
     assist_ratio FLOAT,
     points_in_paint INTEGER,
-    offensive_round_rate FLOAT,
+    offensive_rebound_rate FLOAT,
     possessions INTEGER,
     pace_factor FLOAT,
-    offensive_round_pct FLOAT,
+    offensive_rebound_pct FLOAT,
     two_points_made INTEGER,
     two_point_attempts INTEGER,
     two_point_pct FLOAT,
