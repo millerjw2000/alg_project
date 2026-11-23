@@ -10,8 +10,10 @@ functions = ['avg','max','min','abs','pow','round','floor','ceil','sqrt','med']
 
 var_values = {}
 
-def evaluate_program(ast):
+def evaluate_program(ast,stats):
 
+    global var_values
+    var_values = dict.copy(stats)
     for statement in ast.statements:
         
         #print(statement)
@@ -134,7 +136,7 @@ def evaluate_binary_expression(binary_expression):
     
         return 1 if (left_val < right_val) else 0
 
-    elif operator == 'LT':
+    elif operator == 'LTE':
     
         return 1 if (left_val <= right_val) else 0
 
@@ -165,7 +167,7 @@ def evaluate_unary_expression(unary_expression):
 
     elif operator == 'NOT':
 
-        return 0 if operand != 0 else 1
+        return 0 if operand_val != 0 else 1
 
 def evaluate_number(number):
 

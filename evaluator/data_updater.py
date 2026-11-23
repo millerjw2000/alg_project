@@ -2,6 +2,8 @@ import requests
 import sqlite3
 from urllib.parse import urlparse
 
+# need access to more defensive stats.
+
 STAT_MAPPING = {
     "blocks": "blocks",
     "steals": "steals",
@@ -44,7 +46,7 @@ STAT_MAPPING = {
 def initialize_database():
     conn = get_connection()
 
-    with open("data/schema.sql", "r") as file:
+    with open("evaluator/schema.sql", "r") as file:
         schema = file.read()
 
     try:
@@ -106,7 +108,7 @@ def enter_team(info, team_id, team_name):
         conn.close()
 
 def get_connection():
-    conn = sqlite3.connect('stats.db')
+    conn = sqlite3.connect('evaluator/stats.db')
     return conn
 
 def main():
@@ -129,19 +131,19 @@ def main():
 
         enter_team(data,team_id,team_name)
 
-    # conn = get_connection()
-    # try:
-    #     cursor = conn.cursor()
+    conn = get_connection()
+    try:
+        cursor = conn.cursor()
 
-    #     cursor.execute("SELECT games_played FROM teams WHERE id='1'")
+        cursor.execute("SELECT games_played FROM teams WHERE id='1'")
 
-    #     results = cursor.fetchall()
+        results = cursor.fetchall()
 
-    #     for row in results:
-    #         print(row)
+        for row in results:
+            print(row)
 
-    # finally:
-    #     conn.close()
+    finally:
+        conn.close()
 
 if __name__ == '__main__':
 
