@@ -1,6 +1,5 @@
 import requests
 import sqlite3
-from urllib.parse import urlparse
 
 # need access to more defensive stats.
 

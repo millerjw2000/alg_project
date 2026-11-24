@@ -122,7 +122,7 @@ def tokenize(filename):
 
     except FileNotFoundError as error:
 
-        print('gfdgfgdfile not found!')
+        print('file not found!')
 
 if __name__ == '__main__':
 

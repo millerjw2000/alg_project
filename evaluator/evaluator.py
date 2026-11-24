@@ -1,5 +1,4 @@
 from ast_nodes import *
-import re
 import math
 
 # make sure reserved variables are not modifiable
