@@ -1,5 +1,10 @@
 import requests
 import sqlite3
+from pathlib import Path
+
+BASE_DIR = Path(__file__).resolve().parent
+DATABASE_PATH = BASE_DIR / "stats.db"
+SCHEMA_PATH = BASE_DIR / "schema.sql"
 
 # need access to more defensive stats.
 
@@ -45,7 +50,7 @@ STAT_MAPPING = {
 def initialize_database():
     conn = get_connection()
 
-    with open("evaluator/schema.sql", "r") as file:
+    with open(SCHEMA_PATH) as file:
         schema = file.read()
 
     try:
@@ -54,7 +59,7 @@ def initialize_database():
     finally:
         conn.close()
 
-def enter_team(info, team_id, team_name):
+def enter_team(info, id, team_name):
 
     team_data = {
         column: None
@@ -77,7 +82,7 @@ def enter_team(info, team_id, team_name):
 
     columns = ["id", "team_name"] + list(team_data.keys())
 
-    values = [team_id, team_name] + list(team_data.values())
+    values = [id, team_name] + list(team_data.values())
 
     placeholders = ", ".join(["?"] * len(columns))
 
@@ -107,42 +112,38 @@ def enter_team(info, team_id, team_name):
         conn.close()
 
 def get_connection():
-    conn = sqlite3.connect('evaluator/stats.db')
+    conn = sqlite3.connect(DATABASE_PATH)
     return conn
 
 def main():
 
-    initialize_database()
-    
-    for i in range(1,31):
-
-        url = 'https://sports.core.api.espn.com/v2/sports/basketball/leagues/nba/seasons/2027/teams/' + str(i) + '?lang=en&region=us'
-        response = requests.get(url)
-        data = response.json()
-
-        team_id = data['id']
-        team_name = data['displayName']
-
-        stat_url = data['statistics']['$ref']
-        response = requests.get(stat_url)
-        data = response.json()
-        #print(data)
-
-        enter_team(data,team_id,team_name)
-
-    conn = get_connection()
     try:
-        cursor = conn.cursor()
 
-        cursor.execute("SELECT games_played FROM teams WHERE id='1'")
+        print('Initializing database . . .')
+        initialize_database()
+        
+        print('Updating team stats . . .')
+        for i in range(1,31):
+        
+            url = 'https://sports.core.api.espn.com/v2/sports/basketball/leagues/nba/seasons/2027/teams/' + str(i) + '?lang=en&region=us'
+            response = requests.get(url)
+            data = response.json()
+        
+            team_id = data['id']
+            team_name = data['displayName']
+        
+            stat_url = data['statistics']['$ref']
+            response = requests.get(stat_url)
+            data = response.json()
+            #print(data)
+        
+            enter_team(data,team_id,team_name)
 
-        results = cursor.fetchall()
+        print('Finished.')
 
-        for row in results:
-            print(row)
+    except (requests.RequestException, ValueError, KeyError, sqlite3.Error) as error:
 
-    finally:
-        conn.close()
+        print(f'Error: {error}')
 
 if __name__ == '__main__':
 
