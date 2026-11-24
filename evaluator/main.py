@@ -7,29 +7,53 @@ import sys
 
 def main():
 
-    away_id = 1
-    home_id = 2
+    if len(sys.argv) < 4:
+        print('Invalid command useage. /python main.py [filename] [awayteam id] [hometeam id]')
+        return 0 # i guess return 0 if execution fails
 
-    away_stats = get_data_from_db('away',away_id)
-    home_stats = get_data_from_db('home',home_id)
+    filename = sys.argv[1]
+    away_id = int(sys.argv[2])
+    home_id = int(sys.argv[3])
 
-    #print(home_stats,away_stats)
+    try:
+        print('Getting stats from db . . .')
+        away_stats = get_data_from_db('away',away_id)
+        home_stats = get_data_from_db('home',home_id)
 
-    stats = {**away_stats, **home_stats}
+        #print(home_stats,away_stats)
 
-    #print(stats)
-    
-    filename = 'evaluator/testinput.txt'
+        stats = {**away_stats, **home_stats}
 
-    tokens = tokenize(filename)
+        print('Tokenizing file . . .')
+        tokens = tokenize(filename)
 
-    #print(tokens)
+        #print(tokens)
 
-    parser = Parser(tokens)
+        parser = Parser(tokens)
 
-    ast = parser.parse_program()
+        print('Parsing tokens . . .')
+        ast = parser.parse_program()
 
-    evaluate_program(ast,stats)
+        print('Evaluating AST tree . . .')
+        result = evaluate_program(ast,stats)
+
+        print('Finished.')
+        for var in result:
+
+            if var in stats:
+
+                continue
+
+            else:
+
+                print(f'{var}: {result[var]}')
+
+        return 1
+
+    except Exception as e: # eventually support more specific exceptions
+
+        print(f'Execution error: {e}')
+        return 0
 
 if __name__ == '__main__':
-    main()
+    print(main())

@@ -18,7 +18,7 @@ def evaluate_program(ast,stats):
         #print(statement)
         evaluate_statement(statement)
         
-    print(var_values)
+    return var_values
 
 def evaluate_statement(statement):
     
